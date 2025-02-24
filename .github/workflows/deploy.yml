@@ -16,15 +16,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Debug - Show Docker Username
-        run: echo "DOCKER_USERNAME=$DOCKER_USERNAME"
-
       - name: Build Docker image
         run: |
-          echo "Building Docker image for $DOCKER_USERNAME"
-          docker build -t "${DOCKER_USERNAME}/blockhouse-web:latest" .
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          docker build -t $DOCKER_USERNAME/blockhouse-web:latest .
 
       - name: Login to DockerHub
         run: |
@@ -35,9 +29,7 @@ jobs:
 
       - name: Push Docker image to DockerHub
         run: |
-          docker push "${DOCKER_USERNAME}/blockhouse-web:latest"
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          docker push $DOCKER_USERNAME/blockhouse-web:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,7 +43,7 @@ jobs:
         run: |
           echo "$EC2_SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem ubuntu@$EC2_PUBLIC_IP "docker pull ${DOCKER_USERNAME}/blockhouse-web:latest && docker run -d -p 8000:8000 ${DOCKER_USERNAME}/blockhouse-web:latest"
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@$EC2_PUBLIC_IP "docker pull $DOCKER_USERNAME/blockhouse-web:latest && docker run -d -p 8000:8000 $DOCKER_USERNAME/blockhouse-web:latest"
         env:
           EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           EC2_PUBLIC_IP: ${{ secrets.EC2_PUBLIC_IP }}
