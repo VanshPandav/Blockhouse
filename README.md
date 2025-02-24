@@ -70,7 +70,7 @@ Ensure you have the following installed:
 
 ## CI/CD Pipeline
 
-The CI/CD pipeline is configured using GitHub Actions and runs on every push to the `main` branch. It performs the following steps:
+The CI/CD pipeline is configured using GitHub Actions and runs on every push to the `master` branch. It performs the following steps:
 - **Build Docker image**
 - **Push to Docker Hub**
 - **Deploy to EC2 instance**
@@ -80,7 +80,6 @@ The CI/CD pipeline is configured using GitHub Actions and runs on every push to 
 The backend is deployed on an EC2 instance, accessible at:
 [http://3.133.141.29:8000](http://3.133.141.29:8000)
 
-## Troubleshooting
 
 ## Author
 
