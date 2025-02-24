@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master  # This will trigger the workflow when code is pushed to master
+      - master 
   pull_request:
     branches:
-      - master  # This will trigger the workflow when a PR is made to the master branch
+      - master  
 
 jobs:
   build:
@@ -16,17 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Run tests (replace this step if you don’t have tests)
-      - name: Run tests
-        run: |
-          pytest  # Replace with your actual test command if needed
-
-      # Build Docker image
       - name: Build Docker image
         run: |
           docker build -t my-backend .
 
-      # Push Docker image to DockerHub (if applicable)
       - name: Push Docker image to DockerHub
         run: |
           echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
@@ -34,13 +27,12 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build  # This job will run after the build job is complete
+    needs: build  
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # SSH into EC2 and deploy
       - name: Deploy to EC2
         run: |
           echo "$EC2_SSH_PRIVATE_KEY" > private_key.pem
