@@ -18,8 +18,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t blockhouse-web .
-          
+          docker build -t $DOCKER_USERNAME/blockhouse-web:latest .
+
       - name: Login to DockerHub
         run: |
           echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
@@ -29,7 +29,7 @@ jobs:
 
       - name: Push Docker image to DockerHub
         run: |
-          docker push blockhouse-web
+          docker push $DOCKER_USERNAME/blockhouse-web:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,7 +43,8 @@ jobs:
         run: |
           echo "$EC2_SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          ssh -i private_key.pem ubuntu@$EC2_PUBLIC_IP "docker pull blockhouse-web && docker run -d -p 8000:8000 blockhouse-web"
+          ssh -i private_key.pem ubuntu@$EC2_PUBLIC_IP "docker pull $DOCKER_USERNAME/blockhouse-web:latest && docker run -d -p 8000:8000 $DOCKER_USERNAME/blockhouse-web:latest"
         env:
           EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           EC2_PUBLIC_IP: ${{ secrets.EC2_PUBLIC_IP }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
