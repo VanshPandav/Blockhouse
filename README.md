@@ -28,8 +28,10 @@ Base URL: `http://3.133.141.29:8000`
   - Response (JSON):
     ```json
     {
-      "message": "Order received",
-      "order_id": "12345"
+      "symbol": "JAY",
+      "price": 250,
+      "quantity": 20,
+      "order_type": "buy"
     }
     ```
 
