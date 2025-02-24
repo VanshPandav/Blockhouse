@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master 
+      - master  # Trigger on pushes to master
   pull_request:
     branches:
-      - master  
+      - master  # Trigger on PRs to master
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t my-backend .
-          
+
       - name: Login to DockerHub
         run: |
           echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
@@ -29,12 +29,11 @@ jobs:
 
       - name: Push Docker image to DockerHub
         run: |
-          echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
           docker push my-backend
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build  
+    needs: build  # Ensure deploy only happens after build job
 
     steps:
       - name: Checkout code
