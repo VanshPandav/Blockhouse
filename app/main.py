@@ -19,7 +19,7 @@ def get_db():
 # Root route
 @app.get("/")
 def read_root():
-    return {"message": "Hello, FastAPI!"}
+    return {"message": "Hello, FastAPI, changed!"}
 
 # Add a new order
 @app.post("/orders/", response_model=schemas.Order)
