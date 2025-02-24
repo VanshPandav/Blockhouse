@@ -19,10 +19,10 @@ Base URL: `http://3.133.141.29:8000`
   - Request Body (JSON):
     ```json
     {
-      "order_id": "12345",
-      "symbol": "AAPL",
-      "quantity": 10,
-      "price": 150.5
+      "symbol": "JAY",
+      "price": 250,
+      "quantity": 20,
+      "order_type": "buy"
     }
     ```
   - Response (JSON):
@@ -31,7 +31,8 @@ Base URL: `http://3.133.141.29:8000`
       "symbol": "JAY",
       "price": 250,
       "quantity": 20,
-      "order_type": "buy"
+      "order_type": "buy",
+      "id": 5
     }
     ```
 
@@ -39,14 +40,43 @@ Base URL: `http://3.133.141.29:8000`
   - Endpoint: `/orders`
   - Response (JSON):
     ```json
-    [
+      [
       {
-        "order_id": "12345",
-        "symbol": "AAPL",
-        "quantity": 10,
-        "price": 150.5
+          "symbol": "ISH2",
+          "price": 250.0,
+          "quantity": 20,
+          "order_type": "buy",
+          "id": 1
+      },
+      {
+          "symbol": "VAN",
+          "price": 250.0,
+          "quantity": 20,
+          "order_type": "buy",
+          "id": 2
+      },
+      {
+          "symbol": "JAY",
+          "price": 250.0,
+          "quantity": 20,
+          "order_type": "buy",
+          "id": 3
+      },
+      {
+          "symbol": "JAY",
+          "price": 250.0,
+          "quantity": 20,
+          "order_type": "buy",
+          "id": 4
+      },
+      {
+          "symbol": "JAY",
+          "price": 250.0,
+          "quantity": 20,
+          "order_type": "buy",
+          "id": 5
       }
-    ]
+  ]
     ```
 
 ## Running the Project
