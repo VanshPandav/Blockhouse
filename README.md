@@ -1,141 +1,89 @@
 
-# Blockhouse Web App
+# Blockhouse Backend Service
 
-A web application with a CI/CD pipeline using **GitHub Actions**, **Docker**, and **AWS EC2**. The app automatically builds, tests, and deploys to an EC2 instance on every push to the `master` branch.
-
----
+This project is a backend service for handling trade order submissions, built using Python (FastAPI) and containerized with Docker. The service is deployed on an AWS EC2 instance, with CI/CD pipelines set up using GitHub Actions.
 
 ## Features
 
-- **CI/CD Pipeline**: Automated build, test, and deployment.
-- **Docker**: Containerized FastAPI app.
-- **AWS EC2**: Hosts the deployed app.
-- **PostgreSQL**: Stores trade order data.
+- **Trade Order Management:** Submit and retrieve trade orders.
+- **Docker Integration:** Containerized app for easy deployment.
+- **CI/CD Pipeline:** Automated build and deployment process using GitHub Actions.
+- **AWS Deployment:** Hosted on an EC2 instance, listening on port 8000.
 
----
+## API Endpoints
 
-## 📡 API Endpoints
+Base URL: `http://3.133.141.29:8000`
 
-### 1. **Submit a Trade Order**
-- **POST** `/submit_order`
-- **Request:**
+- **Submit an order (POST):**
+  - Endpoint: `/orders`
+  - Request Body (JSON):
+    ```json
+    {
+      "order_id": "12345",
+      "symbol": "AAPL",
+      "quantity": 10,
+      "price": 150.5
+    }
+    ```
+  - Response (JSON):
+    ```json
+    {
+      "message": "Order received",
+      "order_id": "12345"
+    }
+    ```
 
-  ```json
-  {
-    "symbol": "JAY",
-    "price": 250,
-    "quantity": 20,
-    "order_type": "buy"
-  }
-  ```
-- **Response:**
-
-  ```json
-  {
-    "symbol": "JAY",
-    "price": 250.0,
-    "quantity": 20,
-    "order_type": "buy",
-    "id": 4
-  }
-  ```
-
----
-
-### 2. **Get All Orders**
-- **GET** `/orders`
-- **Response:**
-
-  ```json
+- **Retrieve all orders (GET):**
+  - Endpoint: `/orders`
+  - Response (JSON):
+    ```json
     [
       {
-          "symbol": "ISH2",
-          "price": 250.0,
-          "quantity": 20,
-          "order_type": "buy",
-          "id": 1
-      },
-      {
-          "symbol": "VAN",
-          "price": 250.0,
-          "quantity": 20,
-          "order_type": "buy",
-          "id": 2
-      },
-      {
-          "symbol": "JAY",
-          "price": 250.0,
-          "quantity": 20,
-          "order_type": "buy",
-          "id": 3
-      },
-      {
-          "symbol": "JAY",
-          "price": 250.0,
-          "quantity": 20,
-          "order_type": "buy",
-          "id": 4
+        "order_id": "12345",
+        "symbol": "AAPL",
+        "quantity": 10,
+        "price": 150.5
       }
-  ]
-  ```
+    ]
+    ```
 
----
+## Running the Project
 
-## ⚡ Deployment
+### Prerequisites
 
-1. **Build the Docker image:**
+Ensure you have the following installed:
+- Docker
+- Git
 
+### Steps
+
+1. **Clone the repository:**
    ```bash
-   docker build -t vanshpandav/blockhouse-web:latest .
+   git clone https://github.com/vanshpandav/blockhouse.git
+   cd blockhouse
    ```
 
-2. **Run the container:**
+2. **Access the API:**
+   Open your browser or use Postman to test the endpoints:
+   - GET: [http://localhost:8000/orders](http://localhost:8000/orders)
+   - POST: [http://localhost:8000/orders](http://localhost:8000/orders)
 
-   ```bash
-   docker run -d -p 8080:8000 vanshpandav/blockhouse-web:latest
-   ```
+## CI/CD Pipeline
 
-3. **Deploy to EC2:**
+The CI/CD pipeline is configured using GitHub Actions and runs on every push to the `main` branch. It performs the following steps:
+- **Build Docker image**
+- **Push to Docker Hub**
+- **Deploy to EC2 instance**
 
-   ```bash
-   ssh -i "path/to/private_key.pem" ubuntu@your-ec2-ip
-   docker pull your-docker-username/blockhouse-web:latest
-   docker run -d -p 8080:8000 your-docker-username/blockhouse-web:latest
-   ```
+## Deployment
 
----
+The backend is deployed on an EC2 instance, accessible at:
+[http://3.133.141.29:8000](http://3.133.141.29:8000)
 
-## ✅ CI/CD Setup
+## Troubleshooting
 
-Add these secrets to your GitHub repository:
+## Author
 
-- `DOCKER_USERNAME`
-- `DOCKER_PASSWORD`
-- `EC2_SSH_PRIVATE_KEY`
-- `EC2_PUBLIC_IP`
-
-The CI/CD pipeline is defined in `.github/workflows/deploy.yml`.
-
----
-
-## 📚 Project Structure
-
-```
-.
-├── .github/workflows/deploy.yml
-├── app/
-│   ├── main.py
-│   └── models.py
-├── Dockerfile
-├── README.md
-└── ...
-```
-
----
-
-## 🔗 Contact
-
-- **Author**: [Vansh Pandav](https://www.linkedin.com/in/vansh-pandav-aab281141)  
-- **Email**: vanshpandav@gmail.com  
-
----
+**Vansh Pandav**  
+- LinkedIn: [Vansh Pandav](https://www.linkedin.com/in/vansh-pandav-aab281141)  
+- GitHub: [vanshpandav](https://github.com/vanshpandav)
